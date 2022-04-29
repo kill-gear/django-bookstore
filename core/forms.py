@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 
-from .models import Book
+from .models import Book, Customer, Order, OrderItem
 
 
 class RegisterUserForm(UserCreationForm):
@@ -16,3 +16,4 @@ class BookAddForm(ModelForm):
         model = Book
         fields = ['isbn', 'title', 'category', 'subcategory',
                   'author', 'publisher', 'publication_date', 'image_url', 'price', 'about']
+

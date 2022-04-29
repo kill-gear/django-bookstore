@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import allowed_groups, anonymous_user_only
 from .forms import BookAddForm, RegisterUserForm
 from .models import Book, Category, SubCategory
-
+from .cart import Cart
 
 def home(request):
     book_qs = Book.objects.all()
@@ -123,16 +124,27 @@ def book_filter(request):
     return render(request, "book_filter.html", context)
 
 
+@login_required(redirect_field_name=None, login_url='/login/')
 def cart_get(request):
-    context = {}
+    cart = Cart(request)
+    context = {'cart':list(cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
     return render(request, "cart_get.html", context)
 
 
 def cart_add(request):
-    context = {}
+    cart = Cart(request)
+    book_isbn = request.POST.get('isbn')
+    book_object = Book.objects.get(isbn=book_isbn)
+    cart.add(book_object)
+
+    context = {'cart':list(cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
     return render(request, "cart_get.html", context)
 
 
 def cart_subtract(request):
-    context = {}
+    cart = Cart(request)
+    book_isbn = request.POST.get('isbn')
+    book_object = Book.objects.get(isbn=book_isbn)
+    cart.subtract(book_object)
+    context = {'cart':list(cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
     return render(request, "cart_get.html", context)

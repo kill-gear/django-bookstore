@@ -28,15 +28,10 @@
                         </div>
 
 
-                        <form class="row g-2" action={% url "order_summary" %} method="post">
+                        <form class="row g-2" action={% url "cart_add" %} method="post">
                             {% csrf_token %}
-                            <input type="hidden" value={{ book.isbn }} name="data">
-                            <div class="col-auto">
-                                <input type="number" class="form-control" id="quantity" name="quantity" min="0" max="100"
-                                    required></div>
-                            <div class="col-auto">
+                            <input type="hidden" value={{ book.isbn }} name="isbn">
                                 <button type="submit" class="btn btn-primary mb-3">Add to cart</button>
-                            </div>
                         </form>
 
 
