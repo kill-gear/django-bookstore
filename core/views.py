@@ -1,8 +1,9 @@
-from multiprocessing import context
-from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
-from .models import Book, Category, SubCategory
+from django.shortcuts import get_object_or_404, redirect, render
 
+from .models import Book, Category, SubCategory
 
 
 def home(request):
@@ -13,12 +14,22 @@ def home(request):
 
 
 def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request, f'Incorrect credentials!')
     context = {}
     return render(request, "user_login.html", context)
 
 
 def user_logout(request):
-    context = {}
+    logout(request)
     return redirect('home')
 
 

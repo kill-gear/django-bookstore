@@ -1,4 +1,25 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-Login page
+<div class="d-flex justify-content-center align-items-center">
+    <form class="card p-3 bg-light" method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            <input type="text" class="form-control" required="required" id="id_username" aria-describedby="emailHelp"
+                name="username" />
+        </div>
+        <div class="form-group">
+            <label for="id_password1">Password</label>
+            <input type="password" class="form-control" required="required" id="id_password1" name="password" />
+        </div>
+        <hr>
+        {% for message in messages %}
+            <br />
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 {% endblock %}
