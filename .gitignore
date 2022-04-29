@@ -1,0 +1,9 @@
+config.py
+ecomenv/
+.vscode/
+mydjangoapp/__pycache__/
+db.sqlite3
+app/migrations/__pycache__/
+app/__pycache__/__pycache__/
+__pycache__/
+config.py
