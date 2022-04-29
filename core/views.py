@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .forms import RegisterUserForm
 from .models import Book, Category, SubCategory
 
 
@@ -34,7 +35,16 @@ def user_logout(request):
 
 
 def user_register(request):
-    context = {}
+    form = RegisterUserForm()
+    if request.method == 'POST':
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('login')
+
+    context = {'form': form}
     return render(request, "user_register.html", context)
 
 
@@ -61,7 +71,7 @@ def book_filter(request):
     price_max = request.GET.get('price_max')
     category = request.GET.get('category')
     subcategory = request.GET.get('subcategory')
-    
+
     if title_contains_query:
         qs = qs.filter(title__icontains=title_contains_query)
 
@@ -78,21 +88,20 @@ def book_filter(request):
 
     if date_max:
         qs = qs.filter(publication_date__lt=date_max)
-    
+
     if price_min:
         qs = qs.filter(price__gte=price_min)
-    
+
     if price_max:
         qs = qs.filter(price__lt=price_max)
 
     if category and category != 'Choose...':
         qs = qs.filter(category__id=category)
-    
+
     if subcategory and subcategory != 'Choose...':
         qs = qs.filter(subcategory__id=subcategory)
 
-
-    context = {'queryset': qs, 'categories':categories}
+    context = {'queryset': qs, 'categories': categories}
     return render(request, "book_filter.html", context)
 
 
