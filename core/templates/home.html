@@ -1,9 +1,73 @@
 {% extends 'base.html' %}
 {% block content %}
-Home page
-<a class="navbar-brand" href={% url "filter" %}>book_filter</a>
-<a class="navbar-brand" href={% url "book_get" pk='1' %}>book_get</a>
-<a class="navbar-brand" href={% url "cart" %}>cart_get</a>
-<a class="navbar-brand" href={% url "login" %}>user_login</a>
-<a class="navbar-brand" href={% url "register" %}>user_register</a>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li> {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <!-- Categories / sub categories  -->
+
+    <div class="d-flex justify-content-center align-items-center"
+        style="justify-content: space-around !important; width: 60%; margin: auto;">
+
+        {% for category in categories%}
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary">{{category}}</button>
+                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% for subcategory in category.subcategory_set.all %}
+                    <li>
+                        <a class="dropdown-item"
+                            href="/book_filter/?category={{category.id}}&subcategory={{subcategory.id}}">{{subcategory.name}}
+                        </a>
+                    </li>
+                    {% endfor%}
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                </ul>
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+    <br />
+    <br />
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="container">
+            <div class="row row-cols-3">
+                {% for book in books %}
+                    <div class="card mb-3 bg-light" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ book.image_url}}" class="img-fluid rounded-start">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{book.title}}</h5>
+                                    <h6 class="card-title">Author: {{book.author}}</h6>
+                                    <h6 class="card-title">ISBN: {{book.isbn}}</h6>
+                                    <h6 class="card-title">Price: {{book.price}}</h6>
+                                    <a href={% url "book_get" pk=book.isbn %} class="btn btn-primary stretched-link">Open
+                                        Book</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

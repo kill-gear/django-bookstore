@@ -1,4 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
-Boook get page
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="card mb-3 bg-light" style="max-width: 70%;">
+            <div class="row g-0">
+                <div class="col-md-3">
+                    <img src={{ book.image_url }} class="img-fluid rounded-start"></div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Author: {{ book.author }}
+                            </li>
+                            <li class="list-group-item">ISBN: {{ book.isbn }}
+                            </li>
+                            <li class="list-group-item">Publisher: {{ book.publisher }}
+                            </li>
+                            <li class="list-group-item">Price: &#x20B9 {{ book.price }}
+                            </li>
+                        </ul>
+
+                        <div class="card-body">
+                            <a href="/book_filter/?category={{book.category.id}}" class="card-link">Category:
+                                {{ book.category }}</a>
+                            <a href="/book_filter/?category={{book.category.id}}&subcategory={{book.subcategory.id}}" class="card-link">Sub Category:
+                                {{ book.subcategory }}</a>
+                        </div>
+
+
+                        <form class="row g-2" action={% url "order_summary" %} method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value={{ book.isbn }} name="data">
+                            <div class="col-auto">
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="0" max="100"
+                                    required></div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary mb-3">Add to cart</button>
+                            </div>
+                        </form>
+
+
+                        <p class="card-text">{{book.about}}</p>
+                        <p class="card-text">
+                            <small class="text-muted">Published:
+                                {{ book.publication_date }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

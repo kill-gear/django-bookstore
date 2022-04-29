@@ -1,4 +1,90 @@
 {% extends 'base.html' %}
 {% block content %}
-Book_filter page
+    <div class="container">
+
+        <h3>Filter Books</h3>
+        <!-- Apply Filter form -->
+        <form class="card p-3 bg-light" method="GET" action="">
+            <div class="form-row ">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <input class="form-control py-2 border-right-0 border" type="search" name="title_contains"
+                            placeholder="Title contains..." />
+                        <span class="input-group-append">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <input class="form-control py-2 border-right-0 border" type="search" name="isbn_exact"
+                            placeholder="ISBN exact..." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <input class="form-control py-2 border-right-0 border" type="search" name="title_or_author"
+                            placeholder="Title or author..." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2 col-lg-2">
+                    <label for="publishDateMin">Publish date minimum</label>
+                    <input type="date" class="form-control" id="publishDateMin" name="date_min">
+                </div>
+                <div class="form-group col-md-2 col-lg-2">
+                    <label for="publishDateMax">Publish date maximum</label>
+                    <input type="date" class="form-control" id="publishDateMax" name="date_max">
+                </div>
+                <div class="form-group col-md-2 col-lg-2">
+                    <label for="publishDateMin">Price minimum</label>
+                    <input type="number" class="form-control" id="PriceMin" name="price_min">
+                </div>
+                <div class="form-group col-md-2 col-lg-2">
+                    <label for="publishDateMax">Price maximum</label>
+                    <input type="number" class="form-control" id="PriceMax" name="price_max">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="category">Category</label>
+                    <select id="category" class="form-control" name="category">
+                        <option selected>Choose...</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+
+        <hr />
+
+        <!-- Display filtered books -->
+        <div class="row">
+            <ol>
+                {% for book in queryset %}
+                <a href={% url "book_get" pk=book.isbn %}>
+
+                    <li>
+                        {{ book.title }}
+                    </li>
+                </a>
+                <span>Author: {{ book.author }} ||</span>
+                <span>Published on: {{ book.publication_date }} ||</span>
+                <span>Price: Rs{{ book.price }}</span>
+                <span>ISBN: {{ book.isbn }}</span>
+                <hr />
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
 {% endblock %}
