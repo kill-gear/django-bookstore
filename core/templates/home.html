@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+Home page
+<a class="navbar-brand" href={% url "filter" %}>book_filter</a>
+<a class="navbar-brand" href={% url "book_get" pk='1' %}>book_get</a>
+<a class="navbar-brand" href={% url "cart" %}>cart_get</a>
+<a class="navbar-brand" href={% url "login" %}>user_login</a>
+<a class="navbar-brand" href={% url "register" %}>user_register</a>
+{% endblock %}
