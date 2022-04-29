@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import RegisterUserForm, BookAddForm
+from .decorators import allowed_groups, anonymous_user_only
+from .forms import BookAddForm, RegisterUserForm
 from .models import Book, Category, SubCategory
 
 
@@ -14,6 +15,7 @@ def home(request):
     return render(request, "home.html", context)
 
 
+@anonymous_user_only
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -34,6 +36,7 @@ def user_logout(request):
     return redirect('home')
 
 
+@anonymous_user_only
 def user_register(request):
     form = RegisterUserForm()
     if request.method == 'POST':
@@ -48,6 +51,7 @@ def user_register(request):
     return render(request, "user_register.html", context)
 
 
+@allowed_groups(allowed_groups=['supplier', 'admin'])
 def book_add(request):
     categories = Category.objects.all()
     subcategories = SubCategory.objects.all()
@@ -58,10 +62,12 @@ def book_add(request):
         if form.is_valid():
             form.save()
             title = form.cleaned_data.get('title')
-            messages.success(request, f'Book with title {title} added successfully!')
+            messages.success(
+                request, f'Book with title {title} added successfully!')
             return redirect('home')
 
-    context = {'form': form, 'categories':categories, 'subcategories':subcategories}
+    context = {'form': form, 'categories': categories,
+               'subcategories': subcategories}
     return render(request, "book_add.html", context)
 
 
