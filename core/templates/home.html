@@ -11,14 +11,17 @@
 
 
     <!-- Categories / sub categories  -->
-
+    <hr style="background: none;">
     <div class="d-flex justify-content-center align-items-center"
         style="justify-content: space-around !important; width: 60%; margin: auto;">
 
         {% for category in categories%}
 
             <div class="btn-group">
-                <button type="button" class="btn btn-secondary">{{category}}</button>
+                <form action={% url "filter" %}>
+                    <input type="hidden" value="{{category.id}}" name="category">    
+                    <button type="submit" class="btn btn-secondary">{{category}}</button>
+                </form>
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <span class="visually-hidden">Toggle Dropdown</span>
@@ -31,20 +34,13 @@
                         </a>
                     </li>
                     {% endfor%}
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Separated link</a></li>
                 </ul>
             </div>
 
         {% endfor %}
     </div>
 
-
-    <br />
-    <br />
-
+    <hr style="background: none;">
     <div class="d-flex justify-content-center align-items-center">
         <div class="container">
             <div class="row row-cols-3">
