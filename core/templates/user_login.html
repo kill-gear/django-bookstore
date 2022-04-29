@@ -20,6 +20,10 @@
             </div>
         {% endfor %}
         <button type="submit" class="btn btn-primary">Submit</button>
+        <hr>
+        <div class="text-center">
+            <p>Not a member? <a href={% url "register" %}>Register</a></p>
+        </div>
     </form>
 </div>
 {% endblock %}

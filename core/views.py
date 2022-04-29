@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, BookAddForm
 from .models import Book, Category, SubCategory
 
 
@@ -49,7 +49,19 @@ def user_register(request):
 
 
 def book_add(request):
-    context = {}
+    categories = Category.objects.all()
+    subcategories = SubCategory.objects.all()
+    form = BookAddForm()
+
+    if request.method == 'POST':
+        form = BookAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            title = form.cleaned_data.get('title')
+            messages.success(request, f'Book with title {title} added successfully!')
+            return redirect('home')
+
+    context = {'form': form, 'categories':categories, 'subcategories':subcategories}
     return render(request, "book_add.html", context)
 
 
