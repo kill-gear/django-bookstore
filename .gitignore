@@ -9,3 +9,4 @@ __pycache__/
 config.py
 venv-bookstore/
 bookstore/local_settings.py
+venv/
