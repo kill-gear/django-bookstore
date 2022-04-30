@@ -37,8 +37,7 @@
                                                     <input type="hidden" value={{ item.object.isbn }} name="isbn">
                                                     <button type="submit" class="btn btn-primary">Add</button>
                                                 </form>
-                                                <form class="card p-3 bg-light" method="post" action={% url 'cart_subtract'
-                                                    %}>
+                                                <form class="card p-3 bg-light" method="post" action={% url 'cart_subtract' %}>
                                                     {% csrf_token %}
                                                     <input type="hidden" value={{ item.object.isbn }} name="isbn">
                                                     <button type="submit" class="btn btn-primary">Remove</button>
