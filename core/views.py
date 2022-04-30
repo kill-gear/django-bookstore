@@ -184,6 +184,7 @@ def cart_checkout(request):
                 orderitem.save()
 
             cart.clear()
+            messages.success(request, f"Order successfully placed!\n Order ID: {order.id}")
             return redirect('home')
 
     context = {}
