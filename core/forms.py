@@ -17,3 +17,8 @@ class BookAddForm(ModelForm):
         fields = ['isbn', 'title', 'category', 'subcategory',
                   'author', 'publisher', 'publication_date', 'image_url', 'price', 'about']
 
+
+class CustomerAddForm(ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['name', 'address', 'email', 'mobile', 'pincode']

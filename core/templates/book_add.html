@@ -40,6 +40,10 @@
                 </div>
                 <input type="date" class="form-control" placeholder="" aria-label="Recipient's username"
                     aria-describedby="basic-addon2" name="publication_date" required>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rs</span>
+                </div>
+                <input type="number" min="0" class="form-control" placeholder="Price of book" name="price">
             </div>
 
             <div class="input-group mb-3">
@@ -59,9 +63,6 @@
                     <option value="{{ cat.id }}">{{ cat }}</option>
                     {% endfor %}
                 </select>
-            </div>
-
-            <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Choose Sub Category</span>
                 </div>
@@ -71,14 +72,6 @@
                     <option value="{{ subcat.id }}">{{ subcat }}</option>
                     {% endfor %}
                 </select>
-            </div>
-
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Rs</span>
-                </div>
-                <input type="number" min="0" class="form-control" placeholder="Price of book" name="price">
-
             </div>
 
             <div class="input-group">

@@ -49,8 +49,6 @@
                                                     <div style="width: 80px;">
                                                         <h5 class="mb-0">&#x20B9 {{item.object.price}}</h5>
                                                     </div>
-                                                    <a href="#!" style="color: #cecece;"><i
-                                                            class="fas fa-trash-alt"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -60,12 +58,14 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between mb-1">
                                             </div>
-                                            <button type="button" class="btn btn-info btn-block btn-lg">
-                                                <div class="d-flex justify-content-between">
-                                                    <span>Total: &#x20B9 {{total_price}} </span>
-                                                    <span> Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                                                </div>
-                                            </button>
+                                            <a class="navbar-brand" href={% url "checkout" %}>
+                                                <button type="button" class="btn btn-info btn-block btn-lg">
+                                                    <div class="d-flex justify-content-between">
+                                                        <span>Total: &#x20B9 {{total_price}} </span>
+                                                        <span> Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                    </div>
+                                                </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

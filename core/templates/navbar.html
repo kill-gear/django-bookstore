@@ -39,7 +39,9 @@
                 <a class="nav-link active" aria-current="page" href={% url "cart" %}>
                     <button type="button" class="btn btn-outline-dark">Cart, {{cart|length}} Book</button>
                 </a>
-
+                <a class="nav-link active" aria-current="page" href={% url "cart" %}>
+                    <button type="button" class="btn btn-outline-dark">Total Rs. {{cart_total}}</button>
+                </a>
                 <a class="nav-link active" aria-current="page" href={% url "logout" %}>
                     <button type="button" class="btn btn-outline-dark" data-toggle="tooltip" data-placement="left"
                         title="Log Out">Logged in as

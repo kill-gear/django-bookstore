@@ -56,11 +56,17 @@ class Customer(models.Model):
             models.Index(fields=['mobile']),
         ]
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     items = models.ManyToManyField(Book, through='OrderItem')
     timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f'Order ID:{self.id} Name:{self.customer.name}'
 
 
 class OrderItem(models.Model):
@@ -68,6 +74,9 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     price = models.PositiveIntegerField()
-    
+
     class Meta:
         unique_together = [['book', 'order']]
+
+    def __str__(self) -> str:
+        return f'Order ID:{self.order_id} || Book:{self.book_id} || Quantity:{self.quantity}'

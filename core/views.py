@@ -1,13 +1,16 @@
+from ast import Or
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .decorators import allowed_groups, anonymous_user_only
-from .forms import BookAddForm, RegisterUserForm
-from .models import Book, Category, SubCategory
 from .cart import Cart
+from .decorators import allowed_groups, anonymous_user_only
+from .forms import BookAddForm, CustomerAddForm, RegisterUserForm
+from .models import Book, Category, Customer, Order, OrderItem, SubCategory
+
 
 def home(request):
     book_qs = Book.objects.all()
@@ -127,7 +130,8 @@ def book_filter(request):
 @login_required(redirect_field_name=None, login_url='/login/')
 def cart_get(request):
     cart = Cart(request)
-    context = {'cart':list(cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
+    context = {'cart': list(
+        cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
     return render(request, "cart_get.html", context)
 
 
@@ -138,7 +142,8 @@ def cart_add(request):
     book_object = Book.objects.get(isbn=book_isbn)
     cart.add(book_object)
 
-    context = {'cart':list(cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
+    context = {'cart': list(
+        cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
     return render(request, "cart_get.html", context)
 
 
@@ -148,5 +153,33 @@ def cart_subtract(request):
     book_isbn = request.POST.get('isbn')
     book_object = Book.objects.get(isbn=book_isbn)
     cart.subtract(book_object)
-    context = {'cart':list(cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
+    context = {'cart': list(
+        cart), 'total_price': cart.get_total_price(), 'total_items': len(cart)}
     return render(request, "cart_get.html", context)
+
+
+@login_required(redirect_field_name=None, login_url='/login/')
+def cart_checkout(request):
+    form = CustomerAddForm()
+    if request.method == 'POST':
+        form = CustomerAddForm(request.POST)
+        cart = Cart(request)
+        if form.is_valid():
+            cust_obj = form.save(commit=False)
+            cust_obj.user = request.user
+            cust_obj.save()
+            order = Order(customer=cust_obj)
+            order.save()
+
+            for item in list(cart):
+                orderitem = OrderItem(book=item['object'],
+                                      order=order,
+                                      quantity=item['quantity'],
+                                      price=item['price'])
+                orderitem.save()
+
+            cart.clear()
+            return redirect('home')
+
+    context = {}
+    return render(request, "cart_checkout.html", context)
