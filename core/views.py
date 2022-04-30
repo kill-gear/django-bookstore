@@ -131,6 +131,7 @@ def cart_get(request):
     return render(request, "cart_get.html", context)
 
 
+@login_required(redirect_field_name=None, login_url='/login/')
 def cart_add(request):
     cart = Cart(request)
     book_isbn = request.POST.get('isbn')
@@ -141,6 +142,7 @@ def cart_add(request):
     return render(request, "cart_get.html", context)
 
 
+@login_required(redirect_field_name=None, login_url='/login/')
 def cart_subtract(request):
     cart = Cart(request)
     book_isbn = request.POST.get('isbn')
