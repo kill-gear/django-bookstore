@@ -32,29 +32,32 @@
                                                         <p class="small mb-0">By: {{item.object.author}}</p>
                                                     </div>
                                                 </div>
-                                                <form class="card p-3 bg-light" method="post" action={% url 'cart_add' %}>
-                                                    {% csrf_token %}
-                                                    <input type="hidden" value={{ item.object.isbn }} name="isbn">
-                                                    <button type="submit" class="btn btn-primary">Add</button>
-                                                </form>
-                                                <form class="card p-3 bg-light" method="post" action={% url 'cart_subtract' %}>
-                                                    {% csrf_token %}
-                                                    <input type="hidden" value={{ item.object.isbn }} name="isbn">
-                                                    <button type="submit" class="btn btn-primary">Remove</button>
-                                                </form>
-                                                <div class="d-flex flex-row align-items-center">
-                                                    <div style="width: 50px;">
-                                                        <h5 class="fw-normal mb-0">X {{item.quantity}}</h5>
-                                                    </div>
-                                                    <div style="width: 80px;">
-                                                        <h5 class="mb-0">&#x20B9 {{item.object.price}}</h5>
+                                                
+                                                <div style="align-items: center;display: flex">
+                                                    <form style="padding: 10% 5% 10%;" method="post" action={% url 'cart_add' %}>
+                                                        {% csrf_token %}
+                                                        <input type="hidden" value={{ item.object.isbn }} name="isbn">
+                                                        <button type="submit" class="btn btn-primary">+</button>
+                                                    </form>
+                                                    <form style="padding: 10% 5% 10%;" method="post" action={% url 'cart_subtract' %}>
+                                                        {% csrf_token %}
+                                                        <input type="hidden" value={{ item.object.isbn }} name="isbn">
+                                                        <button type="submit" class="btn btn-primary">-</button>
+                                                    </form>
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <div style="width: 50px;">
+                                                            <h5 class="fw-normal mb-0"> &nbsp; X {{item.quantity}}</h5>
+                                                        </div>
+                                                        <div style="width: 80px;">
+                                                            <h5 class="mb-0">&#x20B9 {{item.object.price}}</h5>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     {% endfor %}
-                                    <div class="card bg-primary text-white rounded-3">
+                                    <div class="card bg-primary text-white rounded-3" style="align-items: flex-end;">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between mb-1">
                                             </div>
@@ -62,7 +65,7 @@
                                                 <button type="button" class="btn btn-info btn-block btn-lg">
                                                     <div class="d-flex justify-content-between">
                                                         <span>Total: &#x20B9 {{total_price}} </span>
-                                                        <span> Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                        <span> &nbsp; Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                                     </div>
                                                 </button>
                                             </a>

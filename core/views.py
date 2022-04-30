@@ -161,9 +161,14 @@ def cart_subtract(request):
 @login_required(redirect_field_name=None, login_url='/login/')
 def cart_checkout(request):
     form = CustomerAddForm()
-    if request.method == 'POST':
+    cart = Cart(request)
+
+    if not len(cart):
+        messages.error(request, f"Cart empty, can't checkout!")
+        return redirect('home')
+
+    if request.method == 'POST' and cart:
         form = CustomerAddForm(request.POST)
-        cart = Cart(request)
         if form.is_valid():
             cust_obj = form.save(commit=False)
             cust_obj.user = request.user
