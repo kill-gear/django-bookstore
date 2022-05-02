@@ -189,3 +189,14 @@ def cart_checkout(request):
 
     context = {}
     return render(request, "cart_checkout.html", context)
+
+def api_books_get(request):
+    book = Book.objects.all()
+    from django.core import serializers
+    from django.http import HttpResponse
+    import json
+    s = serializers.serialize('json', book)
+    data_json = json.loads(s)
+    cleaned_data = [item['fields'] for item in data_json]
+    cleaned_data_json = json.dumps(cleaned_data)
+    return HttpResponse(cleaned_data_json, content_type='application/json')

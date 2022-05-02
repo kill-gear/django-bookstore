@@ -19,5 +19,6 @@ urlpatterns = [
     path('cart_subtract/', views.cart_subtract, name="cart_subtract"),
     path('cart_checkout/', views.cart_checkout, name="checkout"),
 
+    path('api/books/', views.api_books_get, name="api_books_get"),
 
 ]
